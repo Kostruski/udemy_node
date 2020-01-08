@@ -56,7 +56,6 @@ const server = http.createServer((req, res) => {
                     res.end();
                 });
             } else {
-                res.setHeader('Content-Type', 'text/html');
                 res.write(template(wrongMethod));
             }
             res.statusCode = 302;
