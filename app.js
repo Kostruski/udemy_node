@@ -1,32 +1,21 @@
-const http = require('http');
+const path = require('path');
+
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
-const shopRouter = require('./routes/shop');
-const adminRouter = require('./routes/admin');
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/admin', adminRouter);
-app.use(shopRouter);
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
 
-// app.use('/add-product', (req, res, next) => {
-//     res.send(`<form action="/product" method="post"><input type="text" name="add-product"/><button type="submit">add product</button></form>`);
-//     console.log(req.url, 'first use');
-// });
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// app.post('/product', (req, res, next) => {
-//     console.log(req.body, 'body');
-//     setTimeout(() => {
-//         res.redirect('/');
-//     }, 3000);
-// });
+app.use('/admin', adminRoutes);
+app.use(shopRoutes);
 
 app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', 'not-found.html'));
+    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
 });
 
-const server = http.createServer(app);
-
-server.listen(3000);
+app.listen(3000);
