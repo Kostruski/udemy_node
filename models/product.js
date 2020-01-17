@@ -23,9 +23,19 @@ module.exports = class Product {
         });
     }
 
-    static fetchAll() {
-        fs.readFile(p, (err, data) => {
-            console.log(JSON.parse(data));
-        });
+    static async fetchAll() {
+        try {
+            const fileContent = await fs.readFile(p, (err, data) => {
+                if (err) {
+                    console.log(err)
+                    return [];
+                }
+                return data;
+            });
+            const products = await JSON.parse(fileContent);
+            console.log(products, 'z asynca');
+        } catch (error) {
+            console.log(error);
+        }
     }
 };

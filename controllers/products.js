@@ -16,6 +16,10 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
+    console.log(Product.fetchAll(), "z get products")
+
+ 
+
     res.render('shop', {
         prods: Product.fetchAll(),
         pageTitle: 'Shop',
