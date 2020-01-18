@@ -6,36 +6,34 @@ const { mainFolder } = utils;
 const p = path.join(mainFolder, 'data', 'products.js');
 
 module.exports = class Product {
-    constructor(title) {
-        this.title = title;
-    }
+  constructor(title) {
+    this.title = title;
+  }
 
-    save() {
-        fs.readFile(p, (err, fileContent) => {
-            let products = [];
-            if (!err) {
-                products = JSON.parse(fileContent);
-            }
-            products.push(this);
-            fs.writeFile(p, JSON.stringify(products), error => {
-                console.log(error);
-            });
-        });
-    }
+  save() {
+    fs.readFile(p, (err, fileContent) => {
+      let products = [];
+      if (!err) {
+      
+          products = JSON.parse(fileContent);
+ 
+      }
 
-    static async fetchAll() {
-        try {
-            const fileContent = await fs.readFile(p, (err, data) => {
-                if (err) {
-                    console.log(err)
-                    return [];
-                }
-                return data;
-            });
-            const products = await JSON.parse(fileContent);
-            console.log(products, 'z asynca');
-        } catch (error) {
-            console.log(error);
+      products.push(this);
+      fs.writeFile(p, JSON.stringify(products), error => {
+        console.log(error, 'błąd zapisu');
+      });
+    });
+  }
+
+  static fetchAll() {
+    return new Promise((resolve, reject) => {
+      fs.readFile(p, (err, data) => {
+        if (err) {
+          reject(err);
         }
-    }
+        resolve(data);
+      });
+    });
+  }
 };
