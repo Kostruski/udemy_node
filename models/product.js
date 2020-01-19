@@ -14,14 +14,11 @@ module.exports = class Product {
     fs.readFile(p, (err, fileContent) => {
       let products = [];
       if (!err) {
-      
-          products = JSON.parse(fileContent);
- 
+        products = JSON.parse(fileContent);
       }
-
       products.push(this);
       fs.writeFile(p, JSON.stringify(products), error => {
-        console.log(error, 'błąd zapisu');
+        console.log(error);
       });
     });
   }

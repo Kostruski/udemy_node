@@ -21,7 +21,7 @@ exports.getProducts = async (req, res, next) => {
     const fileContent = await Product.fetchAll();
     products = await JSON.parse(fileContent);
   } catch (error) {
-    console.log('komunikat błędu z get products');
+    console.log('komunikat błędu z get products', error);
   }
   res.render('shop', {
     prods: products,
