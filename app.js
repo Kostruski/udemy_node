@@ -31,7 +31,7 @@ User.hasMany(Product);
 
 (async () => {
     try {
-        await sequelize.sync({ force: true });
+        await sequelize.sync();
         app.listen(3000);
     } catch (error) {
         console.log(error);
