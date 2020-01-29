@@ -15,6 +15,7 @@ main {
   margin: auto;
 }
 
+
 form {
   display: inline;
 }
@@ -22,6 +23,11 @@ form {
 .centered {
   text-align: center;
 }
+
+.centered img {
+  max-height: 300px;
+}
+
 
 .main-header {
   width: 100%;
