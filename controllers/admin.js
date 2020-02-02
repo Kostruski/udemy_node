@@ -13,12 +13,14 @@ exports.postAddProduct = async (req, res, next) => {
     const { imageUrl } = req.body;
     const { price } = req.body;
     const { description } = req.body;
+    const userId = req.user.id;
     try {
-        await Product.create({
+        await req.user.createProduct({
             title,
             imageUrl,
             price,
             description,
+            userId,
         });
 
         res.redirect('/admin/products');
@@ -36,15 +38,15 @@ exports.getEditProduct = async (req, res, next) => {
     const prodId = req.params.productId;
 
     try {
-        const product = await Product.findByPk(prodId);
+        const product = await req.user.getProducts({ where: { id: prodId } });
         res.render('admin/edit-product', {
             pageTitle: 'Edit Product',
             path: '/admin/edit-product',
             editing: editMode,
-            product,
+            product: product[0],
         });
     } catch (error) {
-        res.redirect('/');
+        res.redirect('/cart',);
     }
 };
 
