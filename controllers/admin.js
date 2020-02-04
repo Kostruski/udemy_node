@@ -52,7 +52,7 @@ exports.postEditProduct = async (req, res, next) => {
         req.body.price,
         req.body.imageUrl,
         req.body.description,
-        new ObjectId(req.body.productId),
+        req.body.productId,
     );
 
     try {

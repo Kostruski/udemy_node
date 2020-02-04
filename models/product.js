@@ -3,7 +3,7 @@ const getDb = require('../util/database').getDb;
 
 class Product {
     constructor(title, price, imageUrl, description, id) {
-        this._id = id;
+        this._id = new ObjectId(id);
         this.title = title;
         this.price = price;
         this.imageUrl = imageUrl;
@@ -16,7 +16,7 @@ class Product {
             if (this._id) {
                 await db
                     .collection('products')
-                    .updateOne({ _id: new ObjectId(this._id) }, { $set: this });
+                    .updateOne({ _id: this._id }, { $set: this });
             } else {
                 await db.collection('products').insertOne(this);
             }
