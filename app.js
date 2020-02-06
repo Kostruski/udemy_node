@@ -8,7 +8,7 @@ const errorController = require('./controllers/error');
 
 const mongoConnect = require('./util/database').mongoConnect;
 
-const getDb = require('./util/database').getDb;
+const User = require('./models/user');
 
 const app = express();
 
@@ -21,13 +21,13 @@ const shopRoutes = require('./routes/shop');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use((req, res, next) => {
-    // User.findById(1)
-    //     .then(user => {
-    //         req.user = user;
-    //         next();
-    //     })
-    //     .catch(err => console.log(err));
+app.use(async (req, res, next) => {
+    try {
+        const user = await User.findById('5e3a802a4890072dc8619262');
+        req.user = new User(user._id, user.username, user.email, user.cart);
+    } catch (error) {
+        console.log('no user found', error);
+    }
     next();
 });
 
@@ -38,6 +38,4 @@ app.use(errorController.get404);
 
 mongoConnect(() => {
     app.listen(3000);
-    // const db = getDb();
-    // console.log('data base', db, Object.keys(db.__proto__));
 });
